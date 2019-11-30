@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   tools {
-    maven 'apache-maven-3.6.0'
+    maven 'maven-latest'
   }
 
   stages {
@@ -10,7 +10,7 @@ pipeline {
     stage('Prepare') {
       steps {
         // checkout scm
-        git credentialsId: 'mj-key', url: 'ssh://matthew@192.168.1.205/export/groups/gitrepos/game-of-pipelines.git'
+        git credentialsId: 'mj-key', url: 'https://github.com/mjwork812/game-of-life.git'
       }
     }
 
