@@ -1,4 +1,8 @@
 pipeline {
+  options {
+    ansiColor('xterm')
+  }
+
   agent any
 
   tools {
