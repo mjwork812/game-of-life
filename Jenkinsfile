@@ -17,15 +17,27 @@ pipeline {
       }
     }
 
-    stage('Build && SonarQube Analysis') {
+    stage('Build') {
       steps {
-        withSonarQubeEnv('SonarQube Community Edition') {
-          sh 'mvn clean verify package sonar:sonar'
-        }
+        sh 'mvn clean package'
       }
       post {
         always {
           junit '**/target/surefire-reports/*.xml'
+        }
+      }
+    }
+
+    stage('Dependency Analyzer') {
+      steps {
+        sh 'mvn dependency:analyze'
+      }
+    }
+
+    stage('SonarQube Analysis') {
+      steps {
+        withSonarQubeEnv('SonarQube Community Edition') {
+          sh 'mvn sonar:sonar'
         }
       }
     }
