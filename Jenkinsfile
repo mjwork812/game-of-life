@@ -11,22 +11,17 @@ pipeline {
 
   stages {
 
-    stage('Prepare') {
+    stage('SCM Checkout') {
       steps {
-        // checkout scm
         git credentialsId: 'mj-key', url: 'https://github.com/mjwork812/game-of-life.git'
       }
     }
 
-    stage('Verify') {
+    stage('Build && SonarQube Analysis') {
       steps {
-        sh 'mvn verify'
-      }
-    }
-
-    stage('Test') {
-      steps {
-        sh 'mvn test'
+        withSonarQubeEnv('SonarQube Community Edition') {
+          sh 'mvn clean verify package sonar:sonar'
+        }
       }
       post {
         always {
@@ -35,9 +30,13 @@ pipeline {
       }
     }
 
-    stage('Build') {
+    stage("Quality Gate") {
       steps {
-        sh 'mvn -B -DskipTests clean package'
+        timeout(time: 1, unit: 'HOURS') {
+          // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+          // true = set pipeline to UNSTABLE, false = don't
+          waitForQualityGate abortPipeline: true
+        }
       }
     }
 
@@ -49,7 +48,6 @@ pipeline {
           ls -laFh
         '''
       }
-
     }
   }
 }
