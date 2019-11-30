@@ -30,7 +30,7 @@ pipeline {
 
     stage('Dependency Analyzer') {
       steps {
-        sh 'mvn dependency:analyze'
+        sh 'mvn dependency:analyze-only'
       }
     }
 
