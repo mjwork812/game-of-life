@@ -28,11 +28,14 @@ pipeline {
       }
     }
 
+    // NOT WORKING
+    /*
     stage('Dependency Analyzer') {
       steps {
         sh 'mvn dependency:analyze-only'
       }
     }
+    */
 
     stage('SonarQube Analysis') {
       steps {
