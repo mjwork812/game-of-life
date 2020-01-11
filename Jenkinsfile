@@ -6,7 +6,7 @@ pipeline {
   agent any
 
   tools {
-    maven 'maven-latest'
+    maven 'M363'
   }
 
   stages {
@@ -37,6 +37,7 @@ pipeline {
     }
     */
 
+    /*
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('SonarQube Community Edition') {
@@ -54,6 +55,7 @@ pipeline {
         }
       }
     }
+    */
 
     stage('Echo Stuff') {
       steps {
