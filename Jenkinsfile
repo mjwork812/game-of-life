@@ -5,7 +5,7 @@ pipeline {
 
   agent {
     kubernetes {
-      label "jenkins-${SERVICE_NAME}-${env.BUILD_ID}"
+      label "jenkins-slave-${env.BUILD_ID}"
         defaultContainer 'jenkins-slave-mvn'
         yaml """
 apiVersion: v1
