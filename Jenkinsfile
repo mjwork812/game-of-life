@@ -6,7 +6,7 @@ pipeline {
   agent any
 
   tools {
-    maven 'M363'
+    maven 'maven-latest'
   }
 
   stages {
