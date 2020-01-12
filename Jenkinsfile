@@ -3,7 +3,34 @@ pipeline {
     ansiColor('xterm')
   }
 
-  agent any
+  agent {
+    kubernetes {
+      label "jenkins-${SERVICE_NAME}-${env.BUILD_ID}"
+        defaultContainer 'jenkins-slave-mvn'
+        yaml """
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+  - name: 'jnlp'
+    securityContext:
+      runAsUser: 1000
+    image: maven:latest
+    tty: true
+    command:
+    - cat
+  - name: jenkins-slave-mvn
+    securityContext:
+      runAsUser: 1000
+    image: maven:latest
+    tty: true
+    env:
+    command:
+    - cat
+  restartPolicy: Never
+"""
+    }
+  }
 
   tools {
     maven 'maven-latest'
